@@ -1,4 +1,6 @@
-package task_flowers;
+package task_flowers.FlowersHierarchy;
+
+import task_flowers.InterfaceWithImplimentations.Soldable;
 
 public class PottedFlowers extends Flowers implements Soldable {
     private int potDiameter;
@@ -36,7 +38,6 @@ public class PottedFlowers extends Flowers implements Soldable {
         this.soilType = soilType;
     }
 
-    @Override
     public void printCheck() {
         System.out.println("Total for pot flower " + this.getTitle() + " " + this.getPrice() + " $");
     }

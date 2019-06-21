@@ -1,4 +1,6 @@
-package task_flowers;
+package task_flowers.FlowersHierarchy;
+
+import task_flowers.FlowersHierarchy.CutFlowers;
 
 public class LocalFlowers extends CutFlowers {
     private double discountPercent;

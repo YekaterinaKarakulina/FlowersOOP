@@ -1,4 +1,7 @@
-package task_flowers;
+package task_flowers.InterfaceWithImplimentations;
+
+import task_flowers.Exceptions.EmptyBasketException;
+import task_flowers.InterfaceWithImplimentations.Soldable;
 
 import java.util.ArrayList;
 
@@ -33,8 +36,11 @@ public class Basket implements Soldable {
         }
     }
 
-    @Override
-    public void printCheck() {
+    public void printCheck() throws EmptyBasketException {
+        if(basket.isEmpty())
+        {
+            throw new EmptyBasketException();
+        }
         double totalPrice = 0;
         System.out.println("Check for your basket " + this.name);
         for (int i = 0; i < basket.size(); i++) {
@@ -45,7 +51,6 @@ public class Basket implements Soldable {
         System.out.println("Thank you for your purchase!");
     }
 
-    @Override
     public double getPrice() {
         return 0;
     }

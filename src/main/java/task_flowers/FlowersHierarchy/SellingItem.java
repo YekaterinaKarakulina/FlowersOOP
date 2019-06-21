@@ -1,4 +1,4 @@
-package task_flowers;
+package task_flowers.FlowersHierarchy;
 
 public abstract class SellingItem {
     private String title;

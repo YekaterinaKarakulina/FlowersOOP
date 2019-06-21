@@ -1,9 +1,20 @@
 package task_flowers;
 
+import task_flowers.Exceptions.EmptyBasketException;
+import task_flowers.Exceptions.EmptyBouquetException;
+import task_flowers.Exceptions.NotEnoughFlowersInAStorage;
+import task_flowers.FlowersHierarchy.Flowers;
+import task_flowers.FlowersHierarchy.ImportedFlowers;
+import task_flowers.FlowersHierarchy.LocalFlowers;
+import task_flowers.FlowersHierarchy.PottedFlowers;
+import task_flowers.InterfaceWithImplimentations.Basket;
+import task_flowers.InterfaceWithImplimentations.Bouquet;
+
 import java.util.ArrayList;
 
 public class Main {
-    static ArrayList<Flowers> storageOfFlowers = new ArrayList<Flowers>();
+
+    public static ArrayList<Flowers> storageOfFlowers = new ArrayList<Flowers>();
 
     public static void addToStorage(Flowers flower, int amountToAdd) {
         for (int i = 0; i < amountToAdd; i++) {
@@ -17,7 +28,17 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) throws Exception {
+    private static int amountOfFlowersForABouquet = 0;
+
+    public static int getAmountOfFlowersForABouquet() {
+        return amountOfFlowersForABouquet;
+    }
+
+    public static void setAmountOfFlowersForABouquet(int a) {
+        Main.amountOfFlowersForABouquet = a;
+    }
+
+    public static void main(String[] args) {
 
         ImportedFlowers peony = new ImportedFlowers("peony", 5, "pink", 45, "Canada");
         ImportedFlowers rose = new ImportedFlowers("rose", 4, "white", 55, "Holland");
@@ -47,37 +68,42 @@ public class Main {
         PottedFlowers potViolet = new PottedFlowers("violet", 5.5, "violet", 10, "plastic", "blackSoil");
         PottedFlowers potGeranium = new PottedFlowers("geranium", 3.5, "red", 12, "peatCup", "peat");
 
-        addToStorage(new ImportedFlowers("rose", 4.5, "pink", 60, "US"), 1);
-        addToStorage(tulip, 2);
-        System.out.println(storageOfFlowers.toString());
-        removeFromStorage(tulip, 1);
-        System.out.println(storageOfFlowers.toString());
-        addToStorage(lily, 2);
-        System.out.println(storageOfFlowers.toString());
+        addToStorage(lilacPurple, 10);
+        addToStorage(lilacWhite, 15);
+        addToStorage(rose, 5);
+        removeFromStorage(rose, 1);
+        addToStorage(rose, 2);
+        for (int i = 0; i < storageOfFlowers.size(); i++) {
+            System.out.println(storageOfFlowers.get(i).getTitle() + " " + storageOfFlowers.get(i).getColor());
+        }
 
-        Bouquet bouquet1 = new Bouquet("gerberasForMe");
-        bouquet1.addFlower(gerberaOrange, 4);
-        bouquet1.addFlower(gerberaPink, 4);
-        bouquet1.addFlower(gerberaRed, 3);
-        bouquet1.addFlower(gerberaYellow, 4);
-        System.out.println("Bouquet price " + bouquet1.getName() + " " + bouquet1.calculateCost() + " $");
-        bouquet1.removeFlower(gerberaYellow, 4);
-        bouquet1.removeFlower(gerberaPink, 2);
-        bouquet1.removeFlower(gerberaRed, 1);
-        bouquet1.removeFlower(gerberaOrange, 1);
-        System.out.println("Bouquet price " + bouquet1.getName() + " " + bouquet1.calculateCost() + " $");
-        bouquet1.printCheck();
+        try {
+            Bouquet bouquet1 = new Bouquet("lilac");
+            bouquet1.addFlower(lilacPurple, 5);
+            bouquet1.addFlower(lilacWhite, 4);
+            System.out.println("Bouquet price " + bouquet1.getName() + " " + bouquet1.calculateCost() + " $");
+            bouquet1.printCheck();
 
-        Bouquet bouquet2 = new Bouquet("lilac");
-        bouquet2.addFlower(lilacPurple, 5);
-        bouquet2.addFlower(lilacWhite, 4);
-        System.out.println("Bouquet price " + bouquet2.getName() + " " + bouquet2.calculateCost() + " $");
-        bouquet2.printCheck();
+            Bouquet bouquet3 = new Bouquet("roses");
+            bouquet3.addFlower(rose, 5);
+            System.out.println("Bouquet price " + bouquet3.getName() + " " + bouquet3.calculateCost() + " $");
+            bouquet3.printCheck();
 
-        Basket basket1 = new Basket("My 1st basket");
-        basket1.addToBasket(potCactus, 2);
-        basket1.addToBasket(potOrchid, 1);
-        basket1.addToBasket(bouquet2, 1);
-        basket1.printCheck();
+            Basket basket1 = new Basket("My 1st basket");
+            basket1.addToBasket(potCactus, 2);
+            basket1.addToBasket(potOrchid, 1);
+            basket1.addToBasket(bouquet3, 1);
+            basket1.printCheck();
+        } catch (EmptyBouquetException e) {
+            System.out.println("EmptyBouquetException");
+            System.out.println("Your bouquet is empty! \nPlease add some items to print check.");
+        } catch (EmptyBasketException e) {
+            System.out.println("EmptyBasketException");
+            System.out.println("Your basket is empty! \nPlease add some items to print check.");
+        } catch (NotEnoughFlowersInAStorage e) {
+            System.out.println("Not enough flowers in a storage. \nWe have just " + amountOfFlowersForABouquet + " flowers");
+            System.out.println("Please decrease the amount or choose another items.");
+        }
     }
 }
+

@@ -1,6 +1,9 @@
-package task_flowers;
+package task_flowers.FlowersHierarchy;
+
+import task_flowers.FlowersHierarchy.SellingItem;
 
 public class Flowers extends SellingItem {
+
     private String color;
 
     public String getColor() {
@@ -24,6 +27,4 @@ public class Flowers extends SellingItem {
                 ", color='" + color + '\'' +
                 '}';
     }
-
-
 }

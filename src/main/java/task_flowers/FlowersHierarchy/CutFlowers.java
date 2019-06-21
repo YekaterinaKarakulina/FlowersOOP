@@ -1,4 +1,4 @@
-package task_flowers;
+package task_flowers.FlowersHierarchy;
 
 public class CutFlowers extends Flowers {
     private int flowerLength;

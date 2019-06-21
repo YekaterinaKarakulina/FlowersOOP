@@ -1,6 +1,13 @@
-package task_flowers;
+package task_flowers.InterfaceWithImplimentations;
+
+import task_flowers.Exceptions.EmptyBouquetException;
+import task_flowers.Exceptions.NotEnoughFlowersInAStorage;
+import task_flowers.FlowersHierarchy.Flowers;
+import task_flowers.FlowersHierarchy.LocalFlowers;
 
 import java.util.ArrayList;
+
+import static task_flowers.Main.*;
 
 public class Bouquet implements Soldable {
     private String name;
@@ -53,15 +60,23 @@ public class Bouquet implements Soldable {
         return total;
     }
 
-    public void addFlower(Flowers flower, int addAmount) {
+    public void addFlower(Flowers flower, int addAmount) throws NotEnoughFlowersInAStorage {
+        setAmountOfFlowersForABouquet(0);
         for (int i = 0; i < addAmount; i++) {
             list.add(flower);
+            if (storageOfFlowers.contains(flower)) {
+                setAmountOfFlowersForABouquet(getAmountOfFlowersForABouquet() + 1);
+                storageOfFlowers.remove(flower);
+            } else {
+                throw new NotEnoughFlowersInAStorage();
+            }
         }
     }
 
     public void removeFlower(Flowers flower, int removeAmount) {
         for (int i = 0; i < removeAmount; i++) {
             list.remove(flower);
+            storageOfFlowers.add(flower);
         }
     }
 
@@ -73,8 +88,10 @@ public class Bouquet implements Soldable {
                 '}';
     }
 
-    @Override
-    public void printCheck() {
+    public void printCheck() throws EmptyBouquetException {
+        if (list.isEmpty()) {
+            throw new EmptyBouquetException();
+        }
         System.out.println("Check for bouquet " + this.name);
         for (int i = 0; i < list.size(); i++) {
             System.out.println("Flower " + list.get(i).getTitle() + " " + list.get(i).getColor() + " " + list.get(i).getPrice() + " $");
