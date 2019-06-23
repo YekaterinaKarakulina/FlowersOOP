@@ -1,11 +1,16 @@
 package task_flowers.InterfaceWithImplimentations;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import task_flowers.Exceptions.EmptyBasketException;
 import task_flowers.InterfaceWithImplimentations.Soldable;
 
 import java.util.ArrayList;
 
 public class Basket implements Soldable {
+
+    Logger loggerForBasket = LogManager.getLogger(Basket.class);
+
     private String name;
     private ArrayList<Soldable> basket;
 
@@ -37,8 +42,8 @@ public class Basket implements Soldable {
     }
 
     public void printCheck() throws EmptyBasketException {
-        if(basket.isEmpty())
-        {
+        if (basket.isEmpty()) {
+            loggerForBasket.error("EmptyBasketException");
             throw new EmptyBasketException();
         }
         double totalPrice = 0;
@@ -49,6 +54,7 @@ public class Basket implements Soldable {
         }
         System.out.println("Total for basket " + this.name + " " + totalPrice + " $");
         System.out.println("Thank you for your purchase!");
+        loggerForBasket.info("Basket successfully formed");
     }
 
     public double getPrice() {

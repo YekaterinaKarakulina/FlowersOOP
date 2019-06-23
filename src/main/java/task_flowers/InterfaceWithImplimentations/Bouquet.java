@@ -9,7 +9,13 @@ import java.util.ArrayList;
 
 import static task_flowers.Main.*;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 public class Bouquet implements Soldable {
+
+    Logger loggerForBouquet = LogManager.getLogger(Bouquet.class);
+
     private String name;
     private ArrayList<Flowers> list;
     private boolean discountTF;
@@ -56,6 +62,10 @@ public class Bouquet implements Soldable {
             if (discountSum != 0) {
                 discountTF = true;
             }
+
+        }
+        if (total > 0) {
+            loggerForBouquet.debug("Debug message: total of bouquet calculated");
         }
         return total;
     }
@@ -68,6 +78,7 @@ public class Bouquet implements Soldable {
                 setAmountOfFlowersForABouquet(getAmountOfFlowersForABouquet() + 1);
                 storageOfFlowers.remove(flower);
             } else {
+                loggerForBouquet.error("NotEnoughFlowersInAStorage");
                 throw new NotEnoughFlowersInAStorage();
             }
         }
@@ -90,12 +101,14 @@ public class Bouquet implements Soldable {
 
     public void printCheck() throws EmptyBouquetException {
         if (list.isEmpty()) {
+            loggerForBouquet.error("EmptyBouquetException");
             throw new EmptyBouquetException();
         }
         System.out.println("Check for bouquet " + this.name);
         for (int i = 0; i < list.size(); i++) {
             System.out.println("Flower " + list.get(i).getTitle() + " " + list.get(i).getColor() + " " + list.get(i).getPrice() + " $");
         }
+        loggerForBouquet.info("Bouquet successfully assembled");
         System.out.println("________________________\n");
         if (discountTF == true) {
             System.out.println("Local flowers included discount");

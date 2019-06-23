@@ -1,5 +1,8 @@
 package task_flowers;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 import task_flowers.Exceptions.EmptyBasketException;
 import task_flowers.Exceptions.EmptyBouquetException;
 import task_flowers.Exceptions.NotEnoughFlowersInAStorage;
@@ -12,7 +15,10 @@ import task_flowers.InterfaceWithImplimentations.Bouquet;
 
 import java.util.ArrayList;
 
+
 public class Main {
+
+    public static Logger logger = LogManager.getLogger(Main.class);
 
     public static ArrayList<Flowers> storageOfFlowers = new ArrayList<Flowers>();
 
@@ -20,12 +26,14 @@ public class Main {
         for (int i = 0; i < amountToAdd; i++) {
             storageOfFlowers.add(flower);
         }
+        logger.info("Items were successfully added to storage");
     }
 
     public static void removeFromStorage(Flowers flower, int amountToRemove) {
         for (int i = 0; i < amountToRemove; i++) {
             storageOfFlowers.remove(flower);
         }
+        logger.info("Items were successfully removed from storage");
     }
 
     private static int amountOfFlowersForABouquet = 0;
@@ -39,6 +47,8 @@ public class Main {
     }
 
     public static void main(String[] args) {
+
+        System.setProperty("log4j.configurationFile", "C:\\Users\\User\\IdeaProjects\\Flowers\\src\\main\\resources\\log4j2.xml");
 
         ImportedFlowers peony = new ImportedFlowers("peony", 5, "pink", 45, "Canada");
         ImportedFlowers rose = new ImportedFlowers("rose", 4, "white", 55, "Holland");
@@ -73,9 +83,11 @@ public class Main {
         addToStorage(rose, 5);
         removeFromStorage(rose, 1);
         addToStorage(rose, 2);
+        System.out.println("STORAGE:\n_____________________________");
         for (int i = 0; i < storageOfFlowers.size(); i++) {
             System.out.println(storageOfFlowers.get(i).getTitle() + " " + storageOfFlowers.get(i).getColor());
         }
+        System.out.println("_____________________________");
 
         try {
             Bouquet bouquet1 = new Bouquet("lilac");
@@ -94,6 +106,7 @@ public class Main {
             basket1.addToBasket(potOrchid, 1);
             basket1.addToBasket(bouquet3, 1);
             basket1.printCheck();
+
         } catch (EmptyBouquetException e) {
             System.out.println("EmptyBouquetException");
             System.out.println("Your bouquet is empty! \nPlease add some items to print check.");
